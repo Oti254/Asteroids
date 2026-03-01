@@ -7,14 +7,22 @@ def main():
     pygame.init()                               # Initialising pygame
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Getting new instance of GUI window
     clock = pygame.time.Clock()                  # Creating the clock object
-                                                # Instantiating a player object
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    # Creating group class to contain multiple game objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable, drawable)
+
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) # Instantiating a player object
+
     dt = 0
     """
     Delta time is amount of time passed since the last frame was drawn
     Useful in decoupling the game's speed and the speed it's being drawn on screen
     
     """
+
 
 
     while True:                                  # Creating the infinite loop for the game loop
@@ -24,10 +32,13 @@ def main():
             if event.type == pygame.QUIT:        # Checks if the user closed the window and exit the game loop if they do
                 return
 
-        player.update(dt)
+        updatable.update(dt)
 
         screen.fill("black")                    # Filling the screen with a solid black color
-        player.draw(screen)
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()                   # Refreshing the screen
 
         
