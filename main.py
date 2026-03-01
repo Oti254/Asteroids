@@ -1,12 +1,20 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT
 from logger import log_state
+from player import Player
 
 def main():
-    pygame.init()
+    pygame.init()                               # Initialising pygame
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # Getting new instance of GUI window
     clock = pygame.time.Clock()                  # Creating the clock object
+                                                # Instantiating a player object
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     dt = 0
+    """
+    Delta time is amount of time passed since the last frame was drawn
+    Useful in decoupling the game's speed and the speed it's being drawn on screen
+    
+    """
 
 
     while True:                                  # Creating the infinite loop for the game loop
@@ -17,12 +25,14 @@ def main():
                 return
 
         screen.fill("black")                    # Filling the screen with a solid black color
+        player.draw(screen)
         pygame.display.flip()                   # Refreshing the screen
 
         
        # Limiting the frame rate to 60fps
        # Pauses the game loop until 1/60th of a second has passed and returns delta time(ms)
         dt = clock.tick(60)/1000                # Delta time in seconds
+
 
 if __name__ == "__main__":
     main()
